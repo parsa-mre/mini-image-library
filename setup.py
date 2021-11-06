@@ -11,7 +11,7 @@ mini_image_lib = Extension(
 )
 
 setup(
-    name='hello-world',
+    name='mini-image-lib',
     version='0.1',
     ext_modules=[mini_image_lib])
 

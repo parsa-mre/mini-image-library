@@ -34,7 +34,8 @@ extern std::vector<float> blur_kernel;
 // three channels
 extern std::vector<std::vector<std::vector<float> > > image, blured_image, _cache_3_c;
 // two channels
-extern std::vector<std::vector<float> > gray_image, edge_image, _cache_1_c, clusters extern std::vector<std::vector<int> > clustered_image, tmp_clustered_image;
+extern std::vector<std::vector<float> > gray_image, edge_image, _cache_1_c, clusters; 
+extern std::vector<std::vector<int> > clustered_image, tmp_clustered_image;
 
 // multi-threading part
 void parallel_row_operation(void (*row_operation)(const int &, const int &));

@@ -14,6 +14,71 @@ std::vector<std::vector<std::vector<float> > > image, blured_image, _cache_3_c; 
 std::vector<std::vector<float> > gray_image, edge_image, _cache_1_c, clusters;  // two channels
 std::vector<std::vector<int> > clustered_image;
 
+void convert_to_numpy_1C(const std::vector<std::vector<float> > &input, py::object obj)
+{
+    PyObject *pobj = obj.ptr();
+    Py_buffer pybuf;
+    PyObject_GetBuffer(pobj, &pybuf, PyBUF_SIMPLE);
+    void *buf = pybuf.buf;
+    double *p = (double *)buf;
+    Py_XDECREF(pobj);
+
+    u_int n_rows = input.size();
+    u_int n_cols = input[0].size();
+
+    for (u_int i = 0; i < n_rows; i++)
+    {
+        for (u_int j = 0; j < n_cols; j++)
+        {
+            p[i * n_cols + j] = double(input[i][j]);
+        }
+    }
+}
+
+void convert_to_numpy_1C_i(const std::vector<std::vector<int> > &input, py::object obj)
+{
+    PyObject *pobj = obj.ptr();
+    Py_buffer pybuf;
+    PyObject_GetBuffer(pobj, &pybuf, PyBUF_SIMPLE);
+    void *buf = pybuf.buf;
+    double *p = (double *)buf;
+    Py_XDECREF(pobj);
+
+    u_int n_rows = input.size();
+    u_int n_cols = input[0].size();
+
+    for (u_int i = 0; i < n_rows; i++)
+    {
+        for (u_int j = 0; j < n_cols; j++)
+        {
+            p[i * n_cols + j] = double(input[i][j]);
+        }
+    }
+}
+
+void convert_to_numpy_2C(const std::vector<std::vector<std::vector<float> > > &input, py::object obj)
+{
+    PyObject *pobj = obj.ptr();
+    Py_buffer pybuf;
+    PyObject_GetBuffer(pobj, &pybuf, PyBUF_SIMPLE);
+    void *buf = pybuf.buf;
+    double *p = (double *)buf;
+    Py_XDECREF(pobj);
+
+    u_int n_rows = input.size();
+    u_int n_cols = input[0].size();
+
+    for (u_int i = 0; i < n_rows; i++)
+    {
+        for (u_int j = 0; j < n_cols; j++)
+        {
+            p[3 * i * n_cols + 3 * j + 0] = double(input[i][j][0]);
+            p[3 * i * n_cols + 3 * j + 1] = double(input[i][j][1]);
+            p[3 * i * n_cols + 3 * j + 2] = double(input[i][j][2]);
+        }
+    }
+}
+
 void use(const py::list &I, py::object h, py::object w, py::object number_of_threads)
 {
     NUMBER_OF_THREADS = py::extract<int>(number_of_threads);
@@ -32,59 +97,6 @@ void use(const py::list &I, py::object h, py::object w, py::object number_of_thr
             image[i][j][2] = py::extract<int>(I[index++]);
         }
     }
-}
-
-void convert_to_numpy_1C(const std::vector<std::vector<float> > &input, py::object obj)
-{
-    PyObject *pobj = obj.ptr();
-    Py_buffer pybuf;
-    PyObject_GetBuffer(pobj, &pybuf, PyBUF_SIMPLE);
-    void *buf = pybuf.buf;
-    double *p = (double *)buf;
-    Py_XDECREF(pobj);
-
-    u_int n_rows = input.size();
-    u_int n_cols = input[0].size();
-
-    for (u_int i = 0; i < n_rows; i++)
-        for (u_int j = 0; j < n_cols; j++)
-            p[i * n_cols + j] = double(input[i][j]);
-}
-
-void convert_to_numpy_1C_i(const std::vector<std::vector<int> > &input, py::object obj)
-{
-    PyObject *pobj = obj.ptr();
-    Py_buffer pybuf;
-    PyObject_GetBuffer(pobj, &pybuf, PyBUF_SIMPLE);
-    void *buf = pybuf.buf;
-    double *p = (double *)buf;
-    Py_XDECREF(pobj);
-
-    u_int n_rows = input.size();
-    u_int n_cols = input[0].size();
-
-    for (u_int i = 0; i < n_rows; i++)
-        for (u_int j = 0; j < n_cols; j++)
-            p[i * n_cols + j] = double(input[i][j]);
-}
-
-void convert_to_numpy_2C(const std::vector<std::vector<std::vector<float> > > &input, py::object obj)
-{
-    PyObject *pobj = obj.ptr();
-    Py_buffer pybuf;
-    PyObject_GetBuffer(pobj, &pybuf, PyBUF_SIMPLE);
-    void *buf = pybuf.buf;
-    double *p = (double *)buf;
-    Py_XDECREF(pobj);
-
-    u_int n_rows = input.size();
-    u_int n_cols = input[0].size();
-
-    for (u_int i = 0; i < n_rows; i++)
-        for (u_int j = 0; j < n_cols; j++)
-            p[3 * i * n_cols + 3 * j + 0] = double(input[i][j][0]);
-            p[3 * i * n_cols + 3 * j + 1] = double(input[i][j][1]);
-            p[3 * i * n_cols + 3 * j + 2] = double(input[i][j][2]);
 }
 
 void boost_kmean(py::object obj, py::object n_c, py::object itt)
