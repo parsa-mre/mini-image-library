@@ -22,5 +22,5 @@ credit: [Dylan Lu](https://unsplash.com/@dylanluu)
 
 ## How to run
 
-After installing boost-python run `python setup.py build_ext --inplace`. To use `mini_img_lib_wrapper`, rename the `.so` file to `mini_image_lib.so`.
+After installing boost-python run `python setup.py build_ext --inplace`. To use `mini_img_lib_wrapper`, rename the `.so` file to `mini_image_lib.so`..
 
