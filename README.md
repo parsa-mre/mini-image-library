@@ -1,4 +1,4 @@
-# mini-image-library
+# mini-image-library  
 
 A small multi-threaded python library written in c++. The project was intended for Operating Systems course.
 
